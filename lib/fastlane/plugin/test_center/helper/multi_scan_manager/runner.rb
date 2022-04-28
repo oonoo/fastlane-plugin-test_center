@@ -37,7 +37,6 @@ module TestCenter
           )
           @options[:output_types] = updated_output_types
           @options[:output_files] = updated_output_files
-          @options.reject! { |k,_| k == :result_bundle }
         end
 
         def setup_logcollection
