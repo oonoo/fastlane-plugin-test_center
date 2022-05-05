@@ -206,8 +206,6 @@ module TestCenter
           @options[:only_testing] = retrieve_failed_single_try_tests
           @options[:only_testing] = @options[:only_testing].map(&:strip_testcase).uniq
 
-          symlink_result_bundle_to_xcresult(output_directory, reportnamer)
-
           tests_passed
         end
 
@@ -330,17 +328,6 @@ module TestCenter
           end
         end
 
-        def symlink_result_bundle_to_xcresult(output_dir, reportname_helper)
-          return unless @result_bundle_desired && reportname_helper.includes_xcresult?
-
-          xcresult_bundlename = reportname_helper.xcresult_bundlename
-          xcresult_bundlename_path = File.join(output_dir, xcresult_bundlename)
-          test_result_bundlename = File.basename(xcresult_bundlename, '.*') + '.test_result'
-          test_result_bundlename_path = File.join(output_dir, test_result_bundlename)
-          FileUtils.rm_rf(test_result_bundlename_path)
-          File.symlink(xcresult_bundlename_path, test_result_bundlename_path)
-        end
-
         def collate_multitarget_junits
           return if @test_collector.testables.size < 2
 
@@ -396,7 +383,6 @@ module TestCenter
           logs = Dir.glob(logs_glog_pattern)
           FileUtils.mv(logs, absolute_output_directory, force: true)
           FileUtils.rm_rf(Dir.glob(source_reports_directory_glob))
-          symlink_result_bundle_to_xcresult(absolute_output_directory, report_name_helper)
           true
         end
       end

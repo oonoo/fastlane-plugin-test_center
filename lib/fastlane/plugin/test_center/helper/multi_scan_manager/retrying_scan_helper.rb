@@ -312,7 +312,7 @@ module TestCenter
         def update_test_result_bundle_details(info)
           return unless @options[:result_bundle]
 
-          test_result_suffix = '.test_result'
+          test_result_suffix = '.xcresult'
           test_result_suffix.prepend("-#{@reportnamer.report_count}") unless @reportnamer.report_count.zero?
           test_result_bundlepath = File.join(output_directory, @options[:scheme]) + test_result_suffix
           info[:test_result_bundlepath] = test_result_bundlepath
