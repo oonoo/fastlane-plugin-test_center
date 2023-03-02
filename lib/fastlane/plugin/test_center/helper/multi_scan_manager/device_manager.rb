@@ -36,7 +36,8 @@ module FastlaneCore
 
         UI.message("Booting #{self}")
 
-        `xcrun simctl boot #{self.udid} 2>/dev/null`
+        # Boot and wait until it is booted. Also print any output from booting, maybe there are some hints when booting fails.
+        sh("xcrun simctl bootstatus #{self.udid} -b")
         self.state = 'Booted'
       end
 
